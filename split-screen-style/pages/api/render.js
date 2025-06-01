@@ -31,6 +31,8 @@ await renderMedia({
   codec: 'h264',
   outputLocation: `public/out/${compositionId}.mp4`,
   inputProps,
+  hardwareAcceleration:'if-possible',
+  
 });
 
 
