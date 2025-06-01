@@ -1,7 +1,7 @@
 // src/MainClip.tsx
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { OffthreadVideo , AbsoluteFill,useVideoConfig,useCurrentFrame, delayRender, continueRender, cancelRender, watchStaticFile} from 'remotion';
+import { OffthreadVideo , AbsoluteFill,useVideoConfig,useCurrentFrame, delayRender, continueRender, cancelRender, watchStaticFile, Loop} from 'remotion';
 
 import { CalculateMetadataFunction, Sequence, staticFile, Video } from 'remotion';
 import { parseMedia } from '@remotion/media-parser';
@@ -13,6 +13,7 @@ import Infographics from "./Infographics";
 import { loadFont } from "../../hooks/load_font";
 
 import {Player} from '@remotion/player';
+import { TrackedVideo } from "../../components/TrackedVideo";
 
 
 type CaptionedVideoSchema = {
@@ -49,8 +50,8 @@ export const CaptionedVideo: React.FC<CaptionedVideoSchema> = ({ src }) => {
   const [handle] = useState(() => delayRender());
 
 
-
-
+  const {durationInFrames} = useVideoConfig();
+ 
 
 
   const captionsFile = src
@@ -98,40 +99,47 @@ export const CaptionedVideo: React.FC<CaptionedVideoSchema> = ({ src }) => {
         <AbsoluteFill>
         <OffthreadVideo
                 style={{
-                    objectFit: "cover",
-                    width: '100%',
-                    height: '50%',
-                }}
+            position:'absolute',
+              objectFit: "cover",
+              width: '100%',
+              height: '50%',
+              top: 0,
+          }}
                 src={src}
-                volume={2}
+                volume={1.5}
+                
                 />
+               
         </AbsoluteFill>
+        {/* <AbsoluteFill>
+
+         <TrackedVideo src={src} />
+        </AbsoluteFill> */}
 
 <AbsoluteFill>
-        <Video
-                style={{
-                  position:'absolute',
-                    objectFit: "cover",
-                    width: '100%',
-                    height: '50%',
-                    bottom: 0,
-                }}
+  <Loop durationInFrames={durationInFrames}>
+  <OffthreadVideo
+          style={{
+            position:'absolute',
+              objectFit: "cover",
+              width: '100%',
+              height: '50%',
+              bottom: 0,
+          }}
 
-                src={staticFile('lower.mp4')}
-                muted={true}
-                loop
-                
+          src={staticFile('lower.mp4')}
+          muted={true}
 
-
-                />
+          />
+    </Loop>
         </AbsoluteFill>
         
 
-        <Captions captions={captions} />/
-        {/* {
+        <Captions captions={captions} />
+        {
           infographics != null && <Infographics infographics={infographics}/>
 
-        } */}
+        }
         
 
    

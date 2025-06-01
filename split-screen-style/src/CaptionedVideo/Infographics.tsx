@@ -3,7 +3,8 @@ import { InfographicItem } from "../../hooks/infographics"
 import { AnimatedInfographicMedia, AnimationType } from "../../components/AnimatedInfographics";
 
 
-const animations : AnimationType[] = ['zoomIn', 'zoomOut', 'panDown', 'panLeft', 'panRight'];
+const temp : AnimationType[] = ['zoomIn', 'panLeft', 'panRight', 'panDown'];
+
 
 const Infographics : React.FC<{infographics:InfographicItem[]}> = ({infographics}) => {
     const frame = useCurrentFrame();
@@ -16,7 +17,6 @@ const Infographics : React.FC<{infographics:InfographicItem[]}> = ({infographics
             {
                 infographics?.map((item, index)=>{
                     
-                    const animationIndex = Math.floor(Math.random()*4);
                     const startFrame = Math.floor((item.startMs / 1000 ) * fps);
                     const endFrame = Math.floor(((item.startMs + item.durationMs)/1000)*fps);
 
@@ -41,7 +41,7 @@ const Infographics : React.FC<{infographics:InfographicItem[]}> = ({infographics
                             >
                             
                             {item.type === 'image' && 
-                            <AnimatedInfographicMedia animationSpeed={3} animationType={item.animation} durationInFrames={duration} mediaType="image" mediaScale={2}  src={item.uri}/>
+                            <AnimatedInfographicMedia animationSpeed={3} animationType={temp[index%temp.length]} durationInFrames={duration} mediaType="image" mediaScale={1}  src={staticFile(`/imgs/${index}.jpg`)}/>
                             }
 
 

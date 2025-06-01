@@ -38,16 +38,20 @@ export const AnimatedInfographicMedia: React.FC<AnimatedInfographicMediaProps> =
       break;
     case 'panUp':
       y = 20 - 40 * animationSpeed * progress;
+      scale=2;
       break;
     case 'panDown':
       y = -20 + 40 * animationSpeed * progress;
+      scale=2;
       break;
     case 'panRight':
       x = -20 + 40 * animationSpeed * progress;
+      scale=1.5;
       break;
 
     case 'panLeft':
         x = 20 - 40 *animationSpeed * progress;
+        scale=1.5;
         break;
     case 'static':
     default:
